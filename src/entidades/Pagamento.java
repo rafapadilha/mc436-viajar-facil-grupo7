@@ -19,7 +19,11 @@ public class Pagamento
 	private int codigoPagamento;
 	
 	///// Construtor basico 
-	Pagamento (Pacote pacote,double preco,int codigoPagamento)
+	public Pagamento()
+	{
+	}
+
+	public Pagamento (Pacote pacote,double preco,int codigoPagamento)
 	{
 		this.pacote = pacote;
 		this.preco = preco;

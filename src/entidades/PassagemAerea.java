@@ -15,14 +15,14 @@ import orm.util.HibernateUtil;
 public class PassagemAerea extends Passagem
 {
 	private String aeroporto;
-	private int portao_embarque;
+	private String portao_embarque;
 	private String companhia_aerea;
-	private String poltrona;
+	private int poltrona;
 	
 	public PassagemAerea (int id, String destino, String origem, int ano, 
-			      int mes, int dia, int preco, String aeroporto, 
-                              int portao_embarque, String companhia_aerea,
-			      String poltrona)
+			      int mes, int dia, double preco, String aeroporto, 
+                              String portao_embarque, String companhia_aerea,
+			      int poltrona)
 	{
 		super(id, destino, origem, ano, mes, dia, preco);
 		
@@ -37,7 +37,7 @@ public class PassagemAerea extends Passagem
 		return this.aeroporto;
 	}
 	
-	int getPortaoEmbarque()
+	String getPortaoEmbarque()
 	{
 		return this.portao_embarque;
 	}
@@ -47,7 +47,7 @@ public class PassagemAerea extends Passagem
 		return this.companhia_aerea;
 	}
 	
-	String getPoltrona()
+	int getPoltrona()
 	{
 		return this.poltrona;
 	}
@@ -125,7 +125,7 @@ public class PassagemAerea extends Passagem
 	    return ret;
 	}
 
-	public static List<PassagemAerea> porPortaoEmbarque(int portao_embarque)
+	public static List<PassagemAerea> porPortaoEmbarque(String portao_embarque)
 	{
 	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 	    s.beginTransaction();
@@ -143,18 +143,6 @@ public class PassagemAerea extends Passagem
 	    s.beginTransaction();
 	    Query q = s.createQuery("from PassagemAerea where companhia_aerea=:companhia_aerea");
 	    List l = q.setParameter("companhia_aerea", companhia_aerea).list();
-	    List<PassagemAerea> ret = new ArrayList<PassagemAerea>(l.size());
-	    for (Object o : l) ret.add((PassagemAerea) o);
-	    s.getTransaction().commit();
-	    return ret;
-	}
-
-	public static List<PassagemAerea> porPoltrona(String poltrona)
-	{
-	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-	    s.beginTransaction();
-	    Query q = s.createQuery("from PassagemAerea where poltrona=:poltrona");
-	    List l = q.setParameter("poltrona", poltrona).list();
 	    List<PassagemAerea> ret = new ArrayList<PassagemAerea>(l.size());
 	    for (Object o : l) ret.add((PassagemAerea) o);
 	    s.getTransaction().commit();

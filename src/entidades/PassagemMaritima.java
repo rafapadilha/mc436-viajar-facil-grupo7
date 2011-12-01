@@ -18,7 +18,7 @@ public class PassagemMaritima extends Passagem
 	private String companhia_maritima;
 	private int cabine;
 	
-	public PassagemMaritima (int id, String destino, String origem, int ano, int mes, int dia, int preco, 
+	public PassagemMaritima (int id, String destino, String origem, int ano, int mes, int dia, double preco, 
                                  String porto, String companhia_maritima, int cabine)
 	{
 		super(id, destino, origem, ano, mes, dia, preco);

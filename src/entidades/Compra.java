@@ -26,7 +26,7 @@ public class Compra
     }
 
 	// Construtor basico //
-	Compra(int id, Pacote pacote, GuiaTuristico guia, Pagamento pagamento, Passagem passagem, ReservaHotel hotel)
+	public Compra(int id, Pacote pacote, GuiaTuristico guia, Pagamento pagamento, Passagem passagem, ReservaHotel hotel)
 	{
 		this.id = id;
 		this.pacote = pacote;

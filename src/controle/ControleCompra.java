@@ -12,15 +12,14 @@ import entidades.Pagamento;
 import entidades.Passeio;
 import java.util.*;
 
+
 public class ControleCompra 
 {
-	private Compra compra;
-	
     private static ControleCompra instance = null;
+    private Random generator = new Random();
 	
     private ControleCompra()
     {	
-	Compra compra = new Compra();
     }
 
     public static ControleCompra getInstance()
@@ -70,10 +69,12 @@ public class ControleCompra
 		//gera o numero do quarto
 		int quarto = 1 + generator.nextInt(50 - 1);
 		//gera o preco do hotel
-		int preco = 100 + generator.nexInt (500 - 100);
+		int preco = 100 + generator.nextInt(500 - 100);
 		
+
 		//Cria objeto do hotel reservado
-		ReservaHotel hotel = new ReservaHotel(nomes_hotel.get(x), quarto, numero_estrela, entrada, saida, hospedes_quarto, 1234, preco);
+		ReservaHotel hotel = new ReservaHotel(nomes_hotel.get(x), quarto, numero_estrelas, entrada.getYear(),
+	 	entrada.getMonth(),entrada.getDay(), saida.getYear(), saida.getMonth(),saida.getDay(), hospedes_quarto, 1234, preco);
 		
 		return hotel;
 	}
@@ -111,13 +112,13 @@ public class ControleCompra
 		//gera o nemero da companhia
 		int x = 0 + generator.nextInt(17 - 0); 
 		//gera o preco do hotel
-		int preco = 100 + generator.nexInt (1000 - 100);
+		double preco = 100 + generator.nextInt(1000 - 100);
 		//gera o numero da polt		}rona
-		int poltrona = 0 + generator.nexInt (50 - 0);
+		int poltrona = 0 + generator.nextInt(50 - 0);
 		//gera id
-		int id = 0 +generator.nexInt (1000 - 0);
+		int id = 0 +generator.nextInt(1000 - 0);
 		//Obtem o nome do aeroporto
-		String aeroporto = getAeroporto (destino);
+		String aeroporto = getAeroporto(destino);
 			
 		//Cria o objeto da passagem
 		PassagemAerea passagem = new PassagemAerea (id, destino, origem, ano, mes, dia, preco, aeroporto, portao.get(x), companhia.get(j), poltrona);
@@ -136,11 +137,11 @@ public class ControleCompra
 		//gera o numero da companhia
 		int j = 0 + generator.nextInt(3 - 0); 
 		//gera o preco do cruzeiro
-		int preco = 1000 + generator.nexInt (5000 - 100);
+		double preco = 1000 + generator.nextInt(5000 - 100);
 		//gera o numero da cabine
-		int cabine = 0 + generator.nexInt (500 - 0);
+		int cabine = 0 + generator.nextInt(500 - 0);
 		//gera id
-		int id = 0 + generator.nexInt (1000 - 0);
+		int id = 0 + generator.nextInt(1000 - 0);
 		
 		//Cria o objeto da passagem maritima
 		PassagemMaritima passagem = new PassagemMaritima (id, destino, origem, ano, mes, dia, preco, origem, companhia.get(j), cabine);
@@ -151,9 +152,9 @@ public class ControleCompra
 	Pagamento calcularPagamento (Pacote pacote, double preco)
 	{
 		//gera o codigo do pagamento
-		int id = 1000 + generator.nexInt (9999 - 1000);
+		int id = 1000 + generator.nextInt(9999 - 1000);
 		
-		Pagamento pagamento = new Pagamento (pacote, preco, false, id);
+		Pagamento pagamento = new Pagamento (pacote, preco, id);
 		
 		return pagamento;
 	}
@@ -198,9 +199,9 @@ public class ControleCompra
 			return "Consulte a companhia aerea";
 	}
 	
-	public Compra criarCompra (Pacote pacote, boolean add_guia, String lingua_falada, int numero_estrelas, int hospedes_quarto, String tipo_passagem, String tipo_pagamento)
+	public Compra criarCompra (Pacote pacote, boolean add_guia, String lingua_falada, int numero_estrelas, int hospedes_quarto, String tipo_passagem, String tipo_pagamento, String origem)
 	{
-		GuiaTuristico guia;
+		GuiaTuristico guia = new GuiaTuristico();
 		ReservaHotel hotel;
 		PassagemAerea p_aereo;
 		PassagemMaritima p_maritimo;
@@ -229,21 +230,21 @@ public class ControleCompra
 		
 		//cria um objeto hotel
 		hotel = reservaHotel (numero_estrelas, entrada, saida, hospedes_quarto);
-		p_hotel = getPreco();
+		p_hotel = hotel.getPreco();
 				
 		//cria um objeto passagem
 		if (tipo_passagem.equals("aerea"))
 		{
-			p_aereo = reservaPassagemAerea (destino, origem, ano, mes, dia);
+			p_aereo = reservaPassagemAerea (pacote.getDestino(), origem, ano, mes, dia);
 			p_passagem = p_aereo.getPreco();
 			lista_passagem.add(p_aereo);
 			
 		}
 		else
 		{
-			p_maritimo = reservaPassagemMaritima (destino, origem, ano, mes, dia);
+			p_maritimo = reservaPassagemMaritima (pacote.getDestino(), origem, ano, mes, dia);
 			p_passagem = p_maritimo.getPreco();
-			lista_passagem.add(p_maritmo);
+			lista_passagem.add(p_maritimo);
 		}
 		
 		//calcula o preco total
@@ -253,7 +254,7 @@ public class ControleCompra
 		pagamento = calcularPagamento (pacote, preco);
 		
 		//Cria objeto compra
-		Compra compra = new Compra(pacote, guia, pagamento, lista_passagem, hotel);
+		Compra compra = new Compra(0 + generator.nextInt(9999 - 0),pacote, guia, pagamento, lista_passagem.get(0), hotel);
 		
 		return compra;		
 	}
