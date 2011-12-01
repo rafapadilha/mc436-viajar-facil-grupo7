@@ -1,0 +1,6 @@
+GuiaTuristico
+int nome
+int telefone
+String email
+String localidade
+String lingua_falada

@@ -1,0 +1,120 @@
+<!-- build.xml baseado em http://tomcat.apache.org/tomcat-7.0-doc/appdev/build.xml.txt -->
+
+<project name="ex_servlet" default="compile" basedir=".">
+  <property name="app.name"      value="ex_servlet"/>
+  <property name="build.home"    value="${basedir}/build"/>
+  <property name="catalina.home" value="/home/ec2009/ra092735/Desktop/tomcat/apache-tomcat-7.0.22"/> <!-- UPDATE THIS! Tomcat home -->
+  <property name="src.home"      value="${basedir}/src"/>
+  <property name="res.home"      value="${basedir}/resources"/> <!-- hibernate configurations -->
+  <property name="web.home"      value="${basedir}/web"/>
+
+
+<!-- ==================== Compilation Classpath =========================== -->
+
+  <path id="compile.classpath">
+
+    <!-- Include all JAR files that will be included in /WEB-INF/lib -->
+    <fileset dir="${web.home}/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+
+    <!-- Include all elements that Tomcat exposes to applications -->
+    <fileset dir="${catalina.home}/bin">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement location="${catalina.home}/lib"/>
+    <fileset dir="${catalina.home}/lib">
+      <include name="*.jar"/>
+    </fileset>
+
+  </path>
+
+<!--  ==================== Compilation Control Options ==================== -->
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.optimize"    value="false"/>
+
+
+<!-- ==================== All Target ====================================== -->
+
+<!--
+
+  The "all" target is a shortcut for running the "clean" target followed
+  by the "compile" target, to force a complete recompile.
+
+-->
+
+  <target name="all" depends="clean,compile"
+   description="Clean build and dist directories, then compile"/>
+
+
+
+<!-- ==================== Clean Target ==================================== -->
+
+  <target name="clean"
+   description="Delete old build directory">
+    <delete dir="${build.home}"/>
+    <delete file="${basedir}/${app.name}.war"/>
+  </target>
+
+
+
+<!-- ==================== Compile Target ================================== -->
+
+  <target name="compile" depends="prepare"
+   description="Compile Java sources">
+
+    <!-- Compile Java classes as necessary -->
+    <mkdir    dir="${build.home}/WEB-INF/classes"/>
+    <javac srcdir="${src.home}"
+          destdir="${build.home}/WEB-INF/classes"
+            debug="${compile.debug}"
+         optimize="${compile.optimize}">
+        <classpath refid="compile.classpath"/>
+    </javac>
+
+    <!-- Copy application resources -->
+    <copy  todir="${build.home}/WEB-INF/classes">
+      <fileset dir="${src.home}" excludes="**/*.java"/>
+    </copy>
+    <copy  todir="${build.home}/WEB-INF/classes">
+      <fileset dir="${res.home}" excludes="**/*.java"/>
+    </copy>
+
+  </target>
+
+
+
+<!-- ==================== Dist Target ===================================== -->
+
+  <target name="dist" depends="compile"
+   description="Create binary distribution">
+
+    <!-- Create application JAR file -->
+    <jar jarfile="${basedir}/${app.name}.war"
+         basedir="${build.home}"/>
+
+    <!-- Copy jar to tomcat webapp -->
+    <copy todir="${catalina.home}/webapps"
+      file="${basedir}/${app.name}.war" />
+
+  </target>
+
+<!-- ==================== Prepare Target ================================== -->
+
+  <target name="prepare">
+
+    <!-- Create build directories as needed -->
+    <mkdir  dir="${build.home}"/>
+    <mkdir  dir="${build.home}/WEB-INF"/>
+    <mkdir  dir="${build.home}/WEB-INF/classes"/>
+
+
+    <!-- Copy static content of this web application -->
+    <copy todir="${build.home}">
+      <fileset dir="${web.home}"/>
+    </copy>
+
+  </target>
+
+</project>
