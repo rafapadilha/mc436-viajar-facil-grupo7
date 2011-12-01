@@ -93,17 +93,6 @@ public class PagamentoCartao extends Pagamento{
 	    return ret;
 	}
 
-	public static List<PagamentoCartao> porPacote(Pacote pacote)
-	{
-	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-	    s.beginTransaction();
-	    Query q = s.createQuery("from PagamentoCartao where pacote=:pacote");
-	    List l = q.setParameter("pacote", pacote).list();
-	    List<PagamentoCartao> ret = new ArrayList<PagamentoCartao>(l.size());
-	    for (Object o : l) ret.add((PagamentoCartao) o);
-	    s.getTransaction().commit();
-	    return ret;
-	}
 
 	public static List<PagamentoCartao> porNumeroCartao(int numeroCartao)
 	{

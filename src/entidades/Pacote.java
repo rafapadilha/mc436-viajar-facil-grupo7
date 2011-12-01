@@ -171,12 +171,12 @@ public class Pacote
     	Cliente c = new Cliente(0,7289711,"jao","1234","RGdoJao1", "CPF72817","jao@email.com", s);
     	c.salvar();
     	
-    	Cliente c2 = new Cliente(0,7289711,"jao","1234","RGdoJao2", "CPF72817","jao@email.com", s);
+    	Cliente c2 = new Cliente(1,7289711,"jao","1234","RGdoJao2", "CPF72817","jao@email.com", s);
     	c2.salvar();
     	
     	Pacote p = new Pacote(0,"SP",2010,12,10,2011,01,21,23.44,"San Pablo destino muito loco");
     	Passeio pass = new Passeio(0, "SP", 2010, 10, 14,"passeio muito longo", 5);
-    	Passeio pass2 = new Passeio(0, "SP", 2010, 11, 07 ,"passeio muito curto", 5);
+    	Passeio pass2 = new Passeio(1, "SP", 2010, 11, 07 ,"passeio muito curto", 5);
     	pass.salvar();
     	pass2.salvar();
     	
@@ -189,7 +189,7 @@ public class Pacote
     	
     	p.salvar();
     	
-    	Pacote p2 = new Pacote(0,"RJ",2011,12,10,2012,01,21,43.29,"Rio de la Janero destino muito loco");
+    	Pacote p2 = new Pacote(1,"RJ",2011,12,10,2012,01,21,43.29,"Rio de la Janero destino muito loco");
     	p2.addPasseio(pass);
     	p2.salvar();
     	
@@ -197,8 +197,9 @@ public class Pacote
     	g.salvar();
    		GuiaTuristico g2 = new GuiaTuristico(1, "Senhor guia", "05515", "a_oemail@10.com", "argentina", "portunhol");
   	 	g2.salvar();
-    	List<GuiaTuristico> lg = GuiaTuristico.porLinguaFalada("portunhol");
-    	for (GuiaTuristico gg : lg)
+    	List<GuiaTuristico> lg = GuiaTuristico.porId(0);
+		assert(lg.size()==1);    	
+		for (GuiaTuristico gg : lg)
     	{
    		System.out.println("Nome dos Guias:   "+gg.getNome());
     	}
@@ -214,11 +215,13 @@ public class Pacote
 		Compra compra = new Compra(0, p, g, pagbol, passmar, hotel);
 		compra.salvar();
 
-		List<Compra> listacompra = Compra.porGuia(g);
+		List<Compra> listacompra = Compra.porId(0);
 		for(Compra cmp : listacompra)
 		{
 			System.out.println("Nome do Guia:   "+cmp.getGuia().getNome());
 			System.out.println("Inf do Destino:   "+cmp.getPacote().getInfoDestino());
+
 		}
+
     }
 }

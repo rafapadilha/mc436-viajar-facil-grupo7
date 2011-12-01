@@ -73,17 +73,6 @@ public class PagamentoBoleto extends Pagamento{
 	    return ret;
 	}
 
-	public static List<PagamentoBoleto> porPacote(Pacote pacote)
-	{
-	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-	    s.beginTransaction();
-	    Query q = s.createQuery("from PagamentoBoleto where pacote=:pacote");
-	    List l = q.setParameter("pacote", pacote).list();
-	    List<PagamentoBoleto> ret = new ArrayList<PagamentoBoleto>(l.size());
-	    for (Object o : l) ret.add((PagamentoBoleto) o);
-	    s.getTransaction().commit();
-	    return ret;
-	}
 
 	public static List<PagamentoBoleto> porNumBoleto(int numBoleto)
 	{
