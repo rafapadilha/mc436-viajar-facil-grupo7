@@ -80,17 +80,6 @@ public class PagamentoDeposito extends Pagamento {
 	    return ret;
 	}
 
-	public static List<PagamentoDeposito> porPacote(Pacote pacote)
-	{
-	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-	    s.beginTransaction();
-	    Query q = s.createQuery("from PagamentoDeposito where pacote=:pacote");
-	    List l = q.setParameter("pacote", pacote).list();
-	    List<PagamentoDeposito> ret = new ArrayList<PagamentoDeposito>(l.size());
-	    for (Object o : l) ret.add((PagamentoDeposito) o);
-	    s.getTransaction().commit();
-	    return ret;
-	}
 
 	public static List<PagamentoDeposito> porBanco(String banco)
 	{

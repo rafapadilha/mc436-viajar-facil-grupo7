@@ -50,7 +50,7 @@ public class Passagem
 		return preco;
 	}
 
-/*
+
 	public static List<Passagem> porId(int id)
 	{
 	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -110,7 +110,7 @@ public class Passagem
 	    s.getTransaction().commit();
 	    return ret;
 	}
-*/
+
 	public void salvar()
 	{
 	    Session s = HibernateUtil.getSessionFactory().getCurrentSession();
